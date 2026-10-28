@@ -1,0 +1,33 @@
+# Single place for every tunable value, so experiments are reproducible.
+data:
+  root: data/MIRACL-VC1        # folder containing speaker folders (F01, M01, ...)
+  subset: words                # MIRACL-VC1 has "words" and "phrases"; we use words
+  frame_prefix: color_         # colour images; depth_* images are ignored
+
+split:
+  seed: 42
+  n_val_speakers: 2            # speaker-independent: whole speakers held out
+  n_test_speakers: 2
+
+preprocess:
+  img_size: 64                 # mouth crop is resized to img_size x img_size
+  seq_len: 24                  # frames fed to the model per clip
+  cache_dir: data/processed    # cropped clips are cached here (stage 1, slow, run once)
+  probe_frames: 5              # how many frames are used to locate the face once per clip
+  face:
+    scale_factor: 1.1          # Haar cascade parameters
+    min_neighbors: 5
+    min_size: 80               # smallest face (pixels) to accept
+  mouth:
+    width_scale: 0.6           # mouth-box side as a fraction of face width
+    center_y: 0.78             # vertical centre of the mouth as a fraction of face height
+  fallback:                    # used only if no face is detected (flagged in the report!)
+    side_frac: 0.35
+    center_x: 0.5
+    center_y: 0.62
+
+augment:                       # training only
+  brightness: 0.15
+  contrast: 0.15
+  max_shift: 4                 # pixels
+  noise_std: 0.01

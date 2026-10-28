@@ -1,0 +1,11 @@
+numpy
+pandas
+pyyaml
+opencv-python
+matplotlib
+scikit-learn
+pytest
+# needed from Phase 3 onwards
+tensorflow>=2.13
+# needed from Phase 5 onwards
+streamlit
